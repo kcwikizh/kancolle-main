@@ -3,9 +3,7 @@
 Using KanColle's `main.js` in Node.js.
 
 [![npm package](https://img.shields.io/npm/v/@kancolle/main.svg)](https://www.npmjs.org/package/@kancolle/main)
-[![build status](https://img.shields.io/travis/kcwiki/kancolle-main.svg)](http://travis-ci.org/kcwiki/kancolle-main)
-[![dependencies](https://img.shields.io/david/kcwiki/kancolle-main.svg)](https://david-dm.org/kcwiki/kancolle-main)
-[![devDependencies](https://img.shields.io/david/dev/kcwiki/kancolle-main.svg)](https://david-dm.org/kcwiki/kancolle-main?type=dev)
+[![build status](https://github.com/kcwikizh/kancolle-main/workflows/Node.js%20CI/badge.svg)](http://travis-ci.org/kcwiki/kancolle-main)
 
 ## Install
 
