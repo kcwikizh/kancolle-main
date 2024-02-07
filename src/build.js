@@ -1,8 +1,8 @@
-const { spawnSync } = require('child_process')
+// const { spawnSync } = require('child_process')
 // const { inspect } = require('util')
 const { get } = require('axios')
 const { readFileSync, outputFileSync } = require('fs-extra')
-const beautify = require('js-beautify').js
+// const beautify = require('js-beautify').js
 
 const kcsConstUrl = 'https://kcwiki.github.io/cache/gadget_html5/js/kcs_const.js'
 const kcsMainUrl = 'http://203.104.209.71/kcs2/js/main.js'
