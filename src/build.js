@@ -7,7 +7,7 @@ const beautify = require('js-beautify').js
 const kcsConstUrl = 'https://kcwiki.github.io/cache/gadget_html5/js/kcs_const.js'
 const kcsMainUrl = 'http://203.104.209.71/kcs2/js/main.js'
 
-const decoderSource = readFileSync('src/decode.js').toString()
+// const decoderSource = readFileSync('src/decode.js').toString()
 const patchSource = readFileSync('src/patch.js').toString()
 
 const createjsSource = readFileSync('node_modules/createjs/builds/1.0.0/createjs.js').toString()
@@ -19,20 +19,20 @@ outputFileSync('dist/createjs.js', createjsPatched)
   outputFileSync('dist/version', scriptVesion)
 
   const mainSource = (await get(kcsMainUrl)).data
-  const [mainDecoder, mainFormatted] = beautify(mainSource, { indent_size: 2 }).split('\n! function')
-  outputFileSync('dist/decode.js', `${mainDecoder}\n${decoderSource}`)
-  outputFileSync('dist/main.js', `! function${mainFormatted}`)
+  // const [mainDecoder, mainFormatted] = beautify(mainSource, { indent_size: 2 }).split('\n! function')
+  // outputFileSync('dist/decode.js', `${mainDecoder}\n${decoderSource}`)
+  // outputFileSync('dist/main.js', `! function${mainFormatted}`)
 
-  const decoderFunction = readFileSync('dist/decode.js')
-    .toString()
-    .match(/\nvar (.+?) = function/)[1]
+  // const decoderFunction = readFileSync('dist/decode.js')
+  //   .toString()
+  //   .match(/\nvar (.+?) = function/)[1]
 
-  console.log(spawnSync('node', ['dist/decode.js', decoderFunction]).stdout.toString())
+  // console.log(spawnSync('node', ['dist/decode.js', decoderFunction]).stdout.toString())
 
-  const mainDecoded = readFileSync('dist/main.js').toString()
-  const mainPatched = mainDecoded
-    .replace(/Object\.defineProperty\((\S+?), '__esModule'/g, "defineModule($1); Object.defineProperty($1, '__esModule'")
-    .replace(/module\.exports = (\S+?)\((.+?)\) :/, 'module.exports = registerModules($1($2)) :')
+  // const mainDecoded = readFileSync('dist/main.js').toString()
+  const mainPatched = mainSource
+    .replace(/('exports':\{\}.+?)return(.+?);/, "$1var __ex=($2);defineModule(__ex);return __ex;")
+    .replace(/(return.+)return(.+?);/, '$1var __ex=($2);registerModules(__ex);return __ex;')
 
   const build = `${patchSource.replace('scriptVesion', scriptVesion)}\n${mainPatched}`
   outputFileSync(

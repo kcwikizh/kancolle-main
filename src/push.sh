@@ -1,7 +1,7 @@
 #!/bin/sh
 
-export GIT_AUTHOR_NAME="Gizeta"
-export GIT_AUTHOR_EMAIL="0w0@gizeta.tk"
+export GIT_AUTHOR_NAME="kcdata-bot[bot]"
+export GIT_AUTHOR_EMAIL="34319+kcdata-bot[bot]@users.noreply.github.com"
 export GIT_COMMITTER_NAME="$GIT_AUTHOR_NAME"
 export GIT_COMMITTER_EMAIL="$GIT_AUTHOR_EMAIL"
 
