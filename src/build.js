@@ -31,7 +31,7 @@ outputFileSync('dist/createjs.js', createjsPatched)
 
   // const mainDecoded = readFileSync('dist/main.js').toString()
   const mainPatched = mainSource
-    .replace(/('exports':\{\}.+?)return(.+?);/, "$1var __ex=($2);defineModule(__ex);return __ex;")
+    .replace(/('exports':\{\}.+?)return(.+?);/, '$1var __ex=($2);defineModule(__ex);return __ex;')
     .replace(/(return.+)return(.+?);/, '$1var __ex=($2);registerModules(__ex);return __ex;')
 
   const build = `${patchSource.replace('scriptVesion', scriptVesion)}\n${mainPatched}`
