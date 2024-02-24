@@ -9,8 +9,13 @@ let replaceRules = [
   null, // placeholder for decoderFunction
   [/\[\('(.+?)'\)\]/g, "['$1']"], // [('123')] => ['123']
   [/(\w+?)\['(\w+?)'\]/g, '$1.$2'], // _abc['_abc'] => _abc._abc
-  [/(\[[^"']+\])\['(\w+?)'\]/g, '$1.$2'], // [123]['_abc'] => [123]._abc
-  [/(\([^"']*\))\['(\w+?)'\]/g, '$1.$2'], // (123)['_abc'] => (123)._abc
+  [/([\])'}]) *\['(\w+?)'\]/g, '$1.$2'], // []['_abc'] => []._abc
+  [/(\/i?) *\['(\w+?)'\]/g, '$1.$2'], // /r/i ['_abc'] => /r/i._abc
+  [/([ ([\-!])0x([0-9a-f]+)/g, (_, p1, p2) => `${p1}${parseInt(p2, 16)}`], // 0x1 => 1
+  [/!0(?=\W)/g, 'true'], // !0 => true
+  [/!1(?=\W)/g, 'false'], // !1 => false
+  [/void 0(?=\W)/g, 'undefined'], // void 0 => undefined
+  [/([([])(\d+)\.toString\(\)/g, "$1['$2']"], // [123.toString()] => ['123']
   [/`'symbol'`/g, '`$1`'], // `'symbol'` => `symbol`
 ]
 
@@ -41,6 +46,6 @@ do {
   }
 } while (needReplace)
 
-main = main.replace(new RegExp(` ${decoderFunction}[;,]`, 'g'), 'null')
+main = main.replace(new RegExp(` ${decoderFunction}[;,]`, 'g'), ' null')
 
 writeFileSync('dist/main.js', main)
