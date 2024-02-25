@@ -45,6 +45,7 @@ function _0x3bb8() {
   }
 }(_0x3bb8, 0xb86f7))
 const { readFileSync, writeFileSync } = require('fs')
+const beautify = require('js-beautify').js
 
 const decoderFunction = process.argv[2]
 
@@ -92,6 +93,8 @@ do {
   }
 } while (needReplace)
 
-main = main.replace(new RegExp(` ${decoderFunction}[;,]`, 'g'), ' null')
+decodeAlias.add(decoderFunction)
+main = main.replace(new RegExp(`var +(?:${[...decodeAlias].join('|')}) += +(?:${[...decodeAlias].join('|')}) *;`, 'g'), '')
+main = main.replace(new RegExp(`var +(?:${[...decodeAlias].join('|')}) += +(?:${[...decodeAlias].join('|')}) *,`, 'g'), 'var ')
 
-writeFileSync('dist/main.js', main)
+writeFileSync('dist/main.js', beautify(main, { indent_size: 2 }))
