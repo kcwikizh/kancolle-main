@@ -94,7 +94,7 @@ do {
 } while (needReplace)
 
 decodeAlias.add(decoderFunction)
-main = main.replace(new RegExp(`var +(?:${[...decodeAlias].join('|')}) += +(?:${[...decodeAlias].join('|')}) *;`, 'g'), '')
-main = main.replace(new RegExp(`var +(?:${[...decodeAlias].join('|')}) += +(?:${[...decodeAlias].join('|')}) *,`, 'g'), 'var ')
+main = main.replace(new RegExp(`var +(?:${[...decodeAlias].join('|')}) += +(?:${[...decodeAlias].join('|')}) *; *\n`, 'g'), '')
+main = main.replace(new RegExp(`var +(?:${[...decodeAlias].join('|')}) += +(?:${[...decodeAlias].join('|')}) *, *\n`, 'g'), 'var ')
 
 writeFileSync('dist/main.js', beautify(main, { indent_size: 2 }))
