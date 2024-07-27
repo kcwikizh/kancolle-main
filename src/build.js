@@ -19,13 +19,14 @@ outputFileSync('dist/createjs.js', createjsPatched)
   outputFileSync('dist/version', scriptVesion)
 
   const mainSource = (await get(kcsMainUrl)).data
-  const [mainDecoder, ...mainFormatted] = beautify(mainSource, { indent_size: 2 }).split(', ! function')
-  outputFileSync('dist/decode.js', `${mainDecoder})\n${decoderSource}`)
-  outputFileSync('dist/main.js', `(! function${mainFormatted.join(', ! function')}`)
+  const [mainDecoderPartA, ...mainFormattedTemp] = beautify(mainSource, { indent_size: 2 }).split(', ! function')
+  const [mainFormatted, ...mainDecoderPartB] = mainFormattedTemp.join(', ! function').split('\n\nfunction')
+  outputFileSync('dist/decode.js', `${mainDecoderPartA})\n\nfunction${mainDecoderPartB.join('\n\nfunction')}\n\n${decoderSource}`)
+  outputFileSync('dist/main.js', `(! function${mainFormatted}`)
 
   const decoderFunction = readFileSync('dist/decode.js')
     .toString()
-    .match(/^function (.+?)\(/)[1]
+    .match(/\n\nfunction (.+?)\(/)[1]
 
   console.log(spawnSync('node', ['dist/decode.js', decoderFunction]).stdout.toString())
 
