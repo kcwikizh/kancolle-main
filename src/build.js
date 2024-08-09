@@ -21,12 +21,17 @@ outputFileSync('dist/createjs.js', createjsPatched)
   const mainSource = (await get(kcsMainUrl)).data
   const [mainDecoderPartA, ...mainFormattedTemp] = beautify(mainSource, { indent_size: 2 }).split(', ! function')
   const [mainFormatted, ...mainDecoderPartB] = mainFormattedTemp.join(', ! function').split('\n\nfunction')
-  outputFileSync('dist/decode.js', `${mainDecoderPartA})\n\nfunction${mainDecoderPartB.join('\n\nfunction')}\n\n${decoderSource}`)
+  outputFileSync(
+    'dist/decode.js',
+    `${mainDecoderPartA})${mainDecoderPartB.length > 0 ? ['', ...mainDecoderPartB].join('\n\nfunction') : ''}\n\n${decoderSource}`,
+  )
   outputFileSync('dist/main.js', `(! function${mainFormatted}`)
 
-  const decoderFunction = readFileSync('dist/decode.js')
-    .toString()
-    .match(/\n\nfunction (.+?)\(/)[1]
+  const decoderFunction = Array.from(
+    readFileSync('dist/decode.js')
+      .toString()
+      .matchAll(/^function +(.+?)\((?:.+\n)+(?:.+abcdefg.+\n)(?:.+\n)+?(?:^}$)/gm),
+  )[0][1]
 
   console.log(spawnSync('node', ['dist/decode.js', decoderFunction]).stdout.toString())
 
