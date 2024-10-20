@@ -41,7 +41,7 @@ outputFileSync('dist/createjs.js', createjsPatched)
     console.log('Decoder content length:', decoderContent.length)
 
     // 使用更宽松的正则表达式来匹配解码器函数
-    const decoderFunctionMatch = decoderContent.match(/function\s+(\w+)\s*\([^)]*\)\s*{[\s\S]*?abcdefg[\s\S]*?}/m)
+    const decoderFunctionMatch = decoderContent.match(/function\s+(\w+)\s*\((?:.+\n)+(?:.+abcdefg.+\n)(?:.+\n)+?^}/m)
     if (!decoderFunctionMatch) {
       console.log('Decoder content preview:', decoderContent.slice(0, 500)) // 输出文件内容的前500个字符以供调试
       throw new Error('Failed to extract decoder function')
